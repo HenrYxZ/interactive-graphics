@@ -1,9 +1,9 @@
+import os
 from pyrr import Matrix44
+import struct
 
 import moderngl
 import moderngl_window as mglw
-
-import os
 
 
 class LoadingOBJ(mglw.WindowConfig):
@@ -22,10 +22,11 @@ class LoadingOBJ(mglw.WindowConfig):
         self.prog = self.ctx.program(
             vertex_shader='''
                 #version 330
-                uniform mat4 Mvp;
                 in vec3 in_position;
+                uniform float scale;
                 void main() {
-                    gl_Position = Mvp * vec4(in_position, 1.0);
+                    vec3 pos = scale * in_position;
+                    gl_Position = vec4(pos, 1.0);
                 }
             ''',
             fragment_shader='''
@@ -36,8 +37,8 @@ class LoadingOBJ(mglw.WindowConfig):
                 }
             ''',
         )
-        self.mvp = self.prog['Mvp']
-
+        # self.mvp = self.prog['Mvp']
+        self.scale = self.prog['scale']
         # Create a vao from the first root node (attribs are auto mapped)
         self.vao = self.obj.root_nodes[0].mesh.vao.instance(self.prog)
 
@@ -53,8 +54,8 @@ class LoadingOBJ(mglw.WindowConfig):
         up = (0.0, 1.0, 0.0)
         lookat = Matrix44.look_at(eye, target, up)
 
-        self.mvp.write((proj * lookat).astype('f4'))
-
+        # self.mvp.write((proj * lookat).astype('f4'))
+        self.scale.write(struct.pack('f', 0.05))
         self.vao.render(moderngl.POINTS)
 
     @classmethod
