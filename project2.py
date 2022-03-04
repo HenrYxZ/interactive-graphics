@@ -9,7 +9,6 @@ import moderngl_window as mglw
 
 # Local modules
 from constants import *
-import utils
 
 
 class Window(mglw.WindowConfig):
