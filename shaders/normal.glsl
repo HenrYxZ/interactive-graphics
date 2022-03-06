@@ -22,7 +22,8 @@ in vec3 v_norm;
 out vec4 f_color;
 
 void main() {
-    f_color =clamp(vec4(normalize(v_norm), 1.0), 0.0, 1.0);
+    vec3 normalized_normals = v_norm / 2 + 0.5;
+    f_color = vec4(normalized_normals, 1.0);
 }
 
 #endif
