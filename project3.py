@@ -5,6 +5,8 @@ from pyrr import Matrix44
 import struct
 
 
+from orbit_camera import OrbitCameraWindow
+
 FLAT_SHADER = 0
 NORMAL_SHADER = 1
 LAMBERT_SHADER = 2
@@ -12,14 +14,9 @@ SPECULAR_SHADER = 3
 BLINN_SHADER = 4
 
 
-class Window(mglw.WindowConfig):
+class Window(OrbitCameraWindow):
 
-    gl_version = (3, 3)
     title = "Project 3"
-    window_size = (1280, 720)
-    aspect_ratio = 16 / 9
-
-    resource_dir = Path(__file__).parent
 
     def create_render_modes(self):
         modes = {
@@ -32,35 +29,13 @@ class Window(mglw.WindowConfig):
         return modes
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.obj = self.load_scene('data/teapot.obj')
+        super().__init__("shaders/normal.glsl", **kwargs)
         self.render_modes = self.create_render_modes()
-        self.prog = self.render_modes[NORMAL_SHADER]
-        self.mvp = self.prog["Mvp"]
-        self.vao = self.obj.root_nodes[0].mesh.vao.instance(self.prog)
-        self.up = (0, 0, 1)
-        self.target = (0, 0, 5)
-        self.camera_pos = (0, -30, 5)
 
     def set_render_mode(self, mode):
         self.prog = self.render_modes[mode]
         self.mvp = self.prog["Mvp"]
         self.vao = self.obj.root_nodes[0].mesh.vao.instance(self.prog)
-
-    def render(self, time, frame_time):
-        self.ctx.clear(0.0, 0.0, 0.0)
-        self.ctx.enable(moderngl.DEPTH_TEST)
-        self.vao.render()
-        fov = 45.0
-        far = 1000.0
-        near = 0.1
-        proj = Matrix44.perspective_projection(
-            fov, self.aspect_ratio, near, far
-        )
-        lookat = Matrix44.look_at(self.camera_pos, self.target, self.up)
-
-        self.mvp.write((proj * lookat).astype('f4'))
-        self.vao.render(moderngl.TRIANGLES)
 
     def key_event(self, key, action, modifiers):
         # Key presses
