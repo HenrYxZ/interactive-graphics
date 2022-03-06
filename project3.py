@@ -34,7 +34,8 @@ class Window(OrbitCameraWindow):
 
     def set_render_mode(self, mode):
         self.prog = self.render_modes[mode]
-        self.mvp = self.prog["Mvp"]
+        self.proj = self.prog['proj']
+        self.mv = self.prog['mv']
         self.vao = self.obj.root_nodes[0].mesh.vao.instance(self.prog)
 
     def key_event(self, key, action, modifiers):

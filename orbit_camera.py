@@ -35,7 +35,8 @@ class OrbitCameraWindow(mglw.WindowConfig):
         super().__init__(**kwargs)
         self.obj = self.load_scene('data/teapot.obj')
         self.prog = self.load_program(progam_path)
-        self.mvp = self.prog['Mvp']
+        self.proj = self.prog['proj']
+        self.mv = self.prog['mv']
         # Create a vao from the first root node (attribs are auto mapped)
         self.vao = self.obj.root_nodes[0].mesh.vao.instance(self.prog)
 
@@ -58,10 +59,7 @@ class OrbitCameraWindow(mglw.WindowConfig):
             # Adjust zoom
             self.zoom += self.zoom_speed * dy
 
-    def render(self, time, frame_time):
-        self.ctx.clear(0.0, 0.0, 0.0)
-        self.ctx.enable(moderngl.DEPTH_TEST)
-
+    def update_mvp(self):
         proj = Matrix44.perspective_projection(
             self.fov, self.aspect_ratio, self.near, self.far
         )
@@ -73,7 +71,14 @@ class OrbitCameraWindow(mglw.WindowConfig):
         eye = (eye_x, eye_y, eye_z)
         lookat = Matrix44.look_at(eye, self.target, self.up)
 
-        self.mvp.write((proj * lookat).astype('f4'))
+        self.mv.write(lookat.astype('f4'))
+        self.proj.write(proj.astype('f4'))
+
+    def render(self, time, frame_time):
+        self.ctx.clear(0.0, 0.0, 0.0)
+        self.ctx.enable(moderngl.DEPTH_TEST)
+
+        self.update_mvp()
         self.vao.render(moderngl.TRIANGLES)
 
     @classmethod

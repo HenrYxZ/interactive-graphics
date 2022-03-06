@@ -2,7 +2,8 @@
 
 #if defined VERTEX_SHADER
 
-uniform mat4 Mvp;
+uniform mat4 proj;
+uniform mat4 mv;
 
 in vec3 in_position;
 in vec3 in_normal;
@@ -11,7 +12,9 @@ out vec3 v_norm;
 
 
 void main() {
-    gl_Position = Mvp * vec4(in_position, 1.0);
+    gl_Position = proj * mv * vec4(in_position, 1.0);
+    // mat3 m_normal = transpose(inverse(mat3(mv)));
+    // v_norm = m_normal * in_normal;
     v_norm = in_normal;
 }
 

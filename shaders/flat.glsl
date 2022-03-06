@@ -2,13 +2,14 @@
 
 #if defined VERTEX_SHADER
 
-uniform mat4 Mvp;
+uniform mat4 mv;
+uniform mat4 proj;
 
 in vec3 in_position;
 
 void main()
 {
-    gl_Position = Mvp * vec4(in_position, 1.0);
+    gl_Position = proj * mv * vec4(in_position, 1.0);
 }
 
 
