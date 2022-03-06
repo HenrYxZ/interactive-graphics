@@ -5,9 +5,6 @@ from pyrr import Matrix44
 import struct
 
 
-from orbit_camera import OrbitCameraWindow
-
-
 FLAT_SHADER = 0
 NORMAL_SHADER = 1
 LAMBERT_SHADER = 2
