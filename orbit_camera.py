@@ -30,6 +30,7 @@ class OrbitCameraWindow(mglw.WindowConfig):
     fov = 45.0
     far = 1000.0
     near = 0.1
+    uses_eye = False
 
     def __init__(self, progam_path, **kwargs):
         super().__init__(**kwargs)
@@ -71,6 +72,8 @@ class OrbitCameraWindow(mglw.WindowConfig):
         eye = (eye_x, eye_y, eye_z)
         lookat = Matrix44.look_at(eye, self.target, self.up)
 
+        if self.uses_eye:
+            self.prog['eye'] = eye
         self.mv.write(lookat.astype('f4'))
         self.proj.write(proj.astype('f4'))
 

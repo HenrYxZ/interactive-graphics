@@ -23,15 +23,23 @@ void main() {
 
 #elif defined FRAGMENT_SHADER
 
-in vec3 v_vert;
+uniform vec3 light_col;
+uniform vec3 light_pos;
+uniform vec3 diff_col;
+
 in vec3 v_norm;
-vec3 light = vec3(20.0, 0.0, 7.0);
+in vec3 v_vert;
+
+const float Kd = 0.8;
+const float Ka = 1 - Kd;
 
 out vec4 f_color;
 
 void main() {
-    vec3 l = normalize(light - v_vert);
-    f_color = vec4(dot(l, v_norm) * vec3(1.0, 1.0, 1.0), 1.0);
+    vec3 l = normalize(light_pos - v_vert);
+    vec3 diffuse = dot(l, v_norm) * diff_col * light_col;
+    vec3 ambient = diff_col * light_col;
+    f_color = vec4(Kd * diffuse + Ka * ambient, 1.0);
 }
 
 #endif
