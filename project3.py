@@ -37,7 +37,7 @@ class Window(OrbitCameraWindow):
         self.prog['diff_col'].value = DIFFUSE_COLOR
 
     def set_light_pos(self):
-        self.prog['light_pos'].value = (20, -4, 15)
+        self.prog['light_pos'].value = self.light_pos
 
     def set_light_col(self):
         self.prog['light_col'].value = (1, 1, 1)
@@ -60,11 +60,13 @@ class Window(OrbitCameraWindow):
         self.set_material_color()
         self.set_light()
         self.set_ambient_col()
+        self.uses_light = True
 
     def set_specular_shader(self):
         self.set_light_pos()
         self.set_specular_alpha()
         self.uses_eye = True
+        self.uses_light = True
 
     def set_blinn_shader(self):
         self.set_material_color()
@@ -72,6 +74,7 @@ class Window(OrbitCameraWindow):
         self.set_ambient_col()
         self.set_specular_alpha()
         self.uses_eye = True
+        self.uses_light = True
 
     def set_render_mode(self, mode):
         self.current_mode = mode
@@ -79,6 +82,7 @@ class Window(OrbitCameraWindow):
         self.proj = self.prog['proj']
         self.mv = self.prog['mv']
         self.uses_eye = False
+        self.uses_light = False
 
         set_functions = {
             FLAT_SHADER: self.set_flat_shader,
@@ -97,6 +101,7 @@ class Window(OrbitCameraWindow):
         self.set_render_mode(self.current_mode)
 
     def key_event(self, key, action, modifiers):
+        super(Window, self).key_event(key, action, modifiers)
         # Key presses
         if action == self.wnd.keys.ACTION_PRESS:
             if key == self.wnd.keys.NUMBER_1:
