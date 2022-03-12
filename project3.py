@@ -20,7 +20,7 @@ SPECULAR_ALPHA = 40
 class Window(OrbitCameraWindow):
 
     title = "Project 3"
-    current_mode = SPECULAR_SHADER
+    current_mode = FLAT_SHADER
 
     def create_render_modes(self):
         modes = {
@@ -37,10 +37,13 @@ class Window(OrbitCameraWindow):
         self.prog['diff_col'].value = DIFFUSE_COLOR
 
     def set_light_pos(self):
-        self.prog['light_pos'].value = (20, 0, 10)
+        self.prog['light_pos'].value = (20, -4, 15)
 
     def set_light_col(self):
         self.prog['light_col'].value = (1, 1, 1)
+
+    def set_ambient_col(self):
+        self.prog['ambient_col'].value = (1, 1, 1)
 
     def set_light(self):
         self.set_light_pos()
@@ -56,6 +59,7 @@ class Window(OrbitCameraWindow):
     def set_lambert_shader(self):
         self.set_material_color()
         self.set_light()
+        self.set_ambient_col()
 
     def set_specular_shader(self):
         self.set_light_pos()
@@ -65,6 +69,7 @@ class Window(OrbitCameraWindow):
     def set_blinn_shader(self):
         self.set_material_color()
         self.set_light()
+        self.set_ambient_col()
         self.set_specular_alpha()
         self.uses_eye = True
 

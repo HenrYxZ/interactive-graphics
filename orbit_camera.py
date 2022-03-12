@@ -22,9 +22,9 @@ class OrbitCameraWindow(mglw.WindowConfig):
     sensitivity = 0.1
     angles_delta = 10
     zoom_speed = 0.1
-    theta = -90
-    phi = 90
-    zoom = 30
+    theta = -83
+    phi = 54
+    zoom = 35
     target = (0, 0, 5)
     up = (0, 0, 1)
     fov = 45.0

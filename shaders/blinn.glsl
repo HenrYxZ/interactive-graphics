@@ -2,31 +2,52 @@
 
 #if defined VERTEX_SHADER
 
-uniform mat4 Mvp;
+uniform mat4 proj;
+uniform mat4 mv;
 
 in vec3 in_position;
 in vec3 in_normal;
-in vec2 in_texcoord_0;
 
 out vec3 v_vert;
 out vec3 v_norm;
-out vec2 v_tex;
+
 
 void main() {
-    gl_Position = Mvp * vec4(in_position, 1.0);
+    gl_Position = proj * mv * vec4(in_position, 1.0);
     v_vert = in_position;
     v_norm = in_normal;
-    v_tex = in_texcoord_0;
 }
 
 #elif defined FRAGMENT_SHADER
 
+uniform vec3 light_col;
+uniform vec3 light_pos;
+uniform vec3 ambient_col;
+uniform vec3 diff_col;
+uniform vec3 eye;
+uniform float alpha;
+
 in vec3 v_norm;
+in vec3 v_vert;
+
+const float Kd = 0.8;
+const float Ka = 1.0 - Kd;
+const float Ks = 0.6;
 
 out vec4 f_color;
 
 void main() {
-    f_color = vec4(v_norm, 1.0);
+    vec3 l = normalize(light_pos - v_vert);
+    vec3 diffuse = clamp(dot(l, v_norm) * diff_col, 0.0, 1.0);
+    vec3 ambient = diff_col * ambient_col;
+    vec3 view = normalize(eye - v_vert);
+    vec3 h = normalize(l + view);
+    float specular = clamp(dot(h, v_norm), 0.0, 1.0);
+    vec3 color = (
+        light_col * (Kd * diffuse + Ks * pow(specular, alpha)) +
+        ambient_col * Ka * ambient
+    );
+    f_color = vec4(clamp(color, 0.0, 1.0), 1.0);
 }
 
 #endif
