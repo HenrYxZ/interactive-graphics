@@ -42,10 +42,10 @@ class OrbitCameraWindow(mglw.WindowConfig):
     )
     move_light = False
 
-    def __init__(self, progam_path, **kwargs):
+    def __init__(self, obj_path, program_path, **kwargs):
         super().__init__(**kwargs)
-        self.obj = self.load_scene('data/teapot.obj')
-        self.prog = self.load_program(progam_path)
+        self.obj = self.load_scene(obj_path)
+        self.prog = self.load_program(program_path)
         self.proj = self.prog['proj']
         self.mv = self.prog['mv']
         # Create a vao from the first root node (attribs are auto mapped)
@@ -113,15 +113,15 @@ class OrbitCameraWindow(mglw.WindowConfig):
             self.l_r * sin(theta) * sin(phi),
             self.l_r * cos(theta)
         )
-        if self.uses_light:
-            self.prog['light_pos'].value = self.light_pos
+        self.prog['light_pos'].value = self.light_pos
 
     def render(self, time, frame_time):
         self.ctx.clear(0.0, 0.0, 0.0)
         self.ctx.enable(moderngl.DEPTH_TEST)
 
         self.update_mvp()
-        self.update_light()
+        if self.uses_light:
+            self.update_light()
         self.vao.render(moderngl.TRIANGLES)
 
     @classmethod
