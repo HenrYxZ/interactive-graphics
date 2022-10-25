@@ -1,7 +1,6 @@
 from math import radians, sin, cos
 from pathlib import Path
 from pyrr import Matrix44
-import struct
 
 import moderngl
 import moderngl_window as mglw
@@ -48,7 +47,6 @@ class OrbitCameraWindow(mglw.WindowConfig):
         self.prog = self.load_program(program_path)
         self.proj = self.prog['proj']
         self.mv = self.prog['mv']
-        # Create a vao from the first root node (attribs are auto mapped)
         self.vao = self.obj.root_nodes[0].mesh.vao.instance(self.prog)
 
     def mouse_press_event(self, x, y, button):
@@ -123,7 +121,3 @@ class OrbitCameraWindow(mglw.WindowConfig):
         if self.uses_light:
             self.update_light()
         self.vao.render(moderngl.TRIANGLES)
-
-    @classmethod
-    def run(cls):
-        mglw.run_window_config(cls)

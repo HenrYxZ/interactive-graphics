@@ -34,12 +34,9 @@ in vec3 v_norm;
 in vec3 v_vert;
 in vec2 v_tex;
 
-//vec3 Kd = (0.50980395, 0.0, 0.0);
-//vec3 Ka = (0.50980395, 0.0, 0.0);
-//vec3 Ks = (0.80099994, 0.80099994, 0.80099994);
-const float Kd = 0.8;
-const float Ka = 1.0 - Kd;
-const float Ks = 0.6;
+vec3 Kd = vec3(0.50980395, 0.0, 0.0);
+vec3 Ka = vec3(0.50980395, 0.0, 0.0);
+vec3 Ks = vec3(0.80099994, 0.80099994, 0.80099994);
 
 out vec4 f_color;
 
