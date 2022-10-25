@@ -29,7 +29,7 @@ uniform vec3 ambient_col;
 uniform sampler2D texture0;
 uniform sampler2D texture1;
 uniform vec3 eye;
-uniform float alpha;
+uniform vec3 alpha;
 
 in vec3 v_norm;
 in vec3 v_vert;
@@ -48,8 +48,9 @@ void main() {
     vec3 ambient = diff_col * ambient_col;
     vec3 view = normalize(eye - v_vert);
     vec3 h = normalize(l + view);
-    // float specular = clamp(dot(h, v_norm), 0.0, 1.0);
-    float specular = texture(texture1, v_tex).r;
+    float spec_term = clamp(dot(h, v_norm), 0.0, 1.0);
+    vec3 spec_map = texture(texture1, v_tex).rgb;
+    vec3 specular = spec_term * spec_map;
     vec3 color = (
         light_col * (Kd * diffuse + Ks * pow(specular, alpha)) +
         ambient_col * Ka * ambient

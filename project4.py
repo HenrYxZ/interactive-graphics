@@ -14,22 +14,13 @@ class Window(OrbitCameraWindow):
         self.specular_tex.build_mipmaps()
         # Activate texture
         self.obj.root_nodes[0].mesh.material.mat_texture.texture.use()
-        self.set_light_col()
-        self.set_ambient_col()
-        self.set_specular_alpha()
-        self.uses_eye = True
+        self.prog['light_col'].value = (1, 1, 1)
+        self.prog['ambient_col'].value = (1, 1, 1)
+        self.prog['alpha'].value = (
+            SPECULAR_ALPHA, SPECULAR_ALPHA, SPECULAR_ALPHA
+        )
         self.uses_light = True
         self.prog['texture1'].value = 1
-
-    # Set Shader Attributes
-    def set_light_col(self):
-        self.prog['light_col'].value = (1, 1, 1)
-
-    def set_ambient_col(self):
-        self.prog['ambient_col'].value = (1, 1, 1)
-
-    def set_specular_alpha(self):
-        self.prog['alpha'] = SPECULAR_ALPHA
 
     def render(self, time, frame_time):
         self.ctx.clear(0.0, 0.0, 0.0)
