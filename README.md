@@ -10,7 +10,13 @@ made in _moderngl_ with Python
 
 ### Project 1 - Hello World
 
+A window with background color changing in time
+
+![project 1](docs/gifs/project1.gif)
+
 ### Project 2 - Transformations
+
+An orbit view window displaying the vertices of a 3D object as points
 
 ### Project 3 - Shading
 
@@ -22,7 +28,7 @@ or Blinn-Phong
 
 ### Project 4 - Textures
 
-Use images for a diffuse texture and a specular map
+Using images for a diffuse texture and a specular map
 
 ![project 4](docs/imgs/project4.jpeg)
 
@@ -30,4 +36,3 @@ Use images for a diffuse texture and a specular map
 
 - moderngl
 - moderngl-window
-- pyglet
