@@ -8,9 +8,23 @@ made in _moderngl_ with Python
 
 ## Showcase
 
-### Project 3
+### Project 1 - Hello World
+
+### Project 2 - Transformations
+
+### Project 3 - Shading
+
+Press numbers 1 to 5 to change shading from: flat, normals, lambert, specular
+or Blinn-Phong
 
 ![project 3](docs/gifs/project3.gif)
+
+
+### Project 4 - Textures
+
+Use images for a diffuse texture and a specular map
+
+![project 4](docs/imgs/project4.jpeg)
 
 ## Dependencies
 
