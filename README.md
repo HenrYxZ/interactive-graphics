@@ -18,6 +18,8 @@ A window with background color changing in time
 
 An orbit view window displaying the vertices of a 3D object as points
 
+![project 2](docs/imgs/project2.png)
+
 ### Project 3 - Shading
 
 Press numbers 1 to 5 to change shading from: flat, normals, lambert, specular
